@@ -66,16 +66,25 @@ export default class SearchBoxContainer extends React.Component<ISearchBoxContai
    * @param queryText The query text entered by the user
    */
   public async _onSearch(queryText: string, isReset: boolean = false) {
+    let shouldReset: boolean;
+
+    if (queryText === '') {
+      shouldReset = true;
+    } else {
+      shouldReset = isReset;
+    }
+
+    console.log(queryText);
 
     // Don't send empty value
-    if (queryText || isReset) {
+    if (queryText || shouldReset) {
 
       this.setState({
         searchInputValue: queryText,
-        showClearButton: !isReset
+        showClearButton: !shouldReset
       });
 
-      if (this.props.searchInNewPage && !isReset && this.props.pageUrl) {
+      if (this.props.searchInNewPage && !shouldReset && this.props.pageUrl) {
         const urlEncodedQueryText = encodeURIComponent(queryText);
 
         const searchUrl = new URL(this.props.pageUrl);
